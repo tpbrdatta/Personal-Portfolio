@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tapoborota Datta Ritom</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0B1220;
+    --bg-raised: #101A2E;
+    --ink: #E9EDF5;
+    --ink-dim: #8B96AC;
+    --line: #223051;
+    --gold: #D4A24C;
+    --gold-soft: rgba(212,162,76,0.12);
+    --green: #4CAE7F;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Space Grotesk', sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{ background:var(--gold-soft); color:var(--gold); }
+  .mono{ font-family:'JetBrains Mono', monospace; }
+
+  a{ color:inherit; text-decoration:none; }
+
+  /* ---- Top tab bar (signature element) ---- */
+  .tabbar{
+    position:sticky; top:0; z-index:50;
+    display:flex; align-items:center;
+    background:var(--bg-raised);
+    border-bottom:1px solid var(--line);
+    overflow-x:auto;
+  }
+  .tabbar .dots{ display:flex; gap:6px; padding:0 16px; }
+  .tabbar .dots span{ width:10px; height:10px; border-radius:50%; }
+  .dots span:nth-child(1){ background:#E5645C; }
+  .dots span:nth-child(2){ background:#E5B45C; }
+  .dots span:nth-child(3){ background:#4CAE7F; }
+  .tab{
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    color:var(--ink-dim);
+    padding:14px 18px;
+    border-right:1px solid var(--line);
+    white-space:nowrap;
+    cursor:pointer;
+    transition:color .15s, background .15s;
+  }
+  .tab:hover{ color:var(--ink); background:rgba(255,255,255,0.02); }
+  .tab.active{ color:var(--gold); background:var(--bg); border-bottom:2px solid var(--gold); margin-bottom:-1px; }
+
+  section{ padding:100px 24px 40px; max-width:880px; margin:0 auto; scroll-margin-top:52px; }
+
+  /* ---- Hero ---- */
+  .hero{ padding-top:140px; }
+  .status-line{
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    color:var(--green);
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:rgba(76,174,127,0.08);
+    border:1px solid rgba(76,174,127,0.25);
+    padding:6px 12px;
+    border-radius:20px;
+    margin-bottom:28px;
+  }
+  .status-dot{
+    width:7px; height:7px; border-radius:50%; background:var(--green);
+    box-shadow:0 0 0 0 rgba(76,174,127,0.6);
+    animation:pulse 2s infinite;
+  }
+  @keyframes pulse{
+    0%{ box-shadow:0 0 0 0 rgba(76,174,127,0.5); }
+    70%{ box-shadow:0 0 0 6px rgba(76,174,127,0); }
+    100%{ box-shadow:0 0 0 0 rgba(76,174,127,0); }
+  }
+  h1{
+    font-size:clamp(38px, 6vw, 64px);
+    font-weight:700;
+    letter-spacing:-0.02em;
+    line-height:1.08;
+  }
+  h1 .accent{ color:var(--gold); }
+  .role-line{
+    margin-top:18px;
+    font-size:clamp(16px, 2.4vw, 20px);
+    color:var(--ink-dim);
+    font-family:'JetBrains Mono', monospace;
+  }
+  .caret{
+    display:inline-block; width:9px; height:1.1em; background:var(--gold);
+    margin-left:2px; vertical-align:text-bottom;
+    animation:blink 1s steps(1) infinite;
+  }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  .bio{ margin-top:28px; max-width:620px; color:var(--ink-dim); font-size:16px; }
+
+  /* ---- Section headers ---- */
+  .sec-label{
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    color:var(--gold);
+    margin-bottom:8px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .sec-label::before{ content:''; width:18px; height:1px; background:var(--gold); display:inline-block; }
+  h2{ font-size:clamp(24px,3.4vw,32px); font-weight:600; margin-bottom:28px; letter-spacing:-0.01em; }
+
+  /* ---- Now card ---- */
+  .now-card{
+    background:var(--bg-raised);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:26px 28px;
+    position:relative;
+    overflow:hidden;
+  }
+  .now-card::before{
+    content:'';
+    position:absolute; left:0; top:0; bottom:0; width:3px;
+    background:var(--gold);
+  }
+  .now-card p{ color:var(--ink-dim); font-size:15px; }
+  .now-card .now-title{ font-size:17px; font-weight:600; margin-bottom:8px; }
+
+  /* ---- Language / skill chips ---- */
+  .chip-group{ margin-bottom:26px; }
+  .chip-group .glabel{ font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--ink-dim); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px; }
+  .chips{ display:flex; flex-wrap:wrap; gap:10px; }
+  .chip{
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    padding:8px 14px;
+    border-radius:6px;
+    background:var(--gold-soft);
+    border:1px solid rgba(212,162,76,0.3);
+    color:var(--gold);
+  }
+  .chip.alt{
+    background:rgba(76,174,127,0.08);
+    border-color:rgba(76,174,127,0.25);
+    color:var(--green);
+  }
+
+  /* ---- Projects ---- */
+  .proj-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  @media (max-width:640px){ .proj-grid{ grid-template-columns:1fr; } }
+  .proj-card{
+    background:var(--bg-raised);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:22px;
+    transition:transform .18s, border-color .18s;
+    display:block;
+  }
+  .proj-card:hover{ transform:translateY(-3px); border-color:var(--gold); }
+  .proj-card .proj-name{ font-family:'JetBrains Mono', monospace; font-weight:600; font-size:15px; margin-bottom:8px; color:var(--ink); }
+  .proj-card .proj-desc{ color:var(--ink-dim); font-size:13.5px; }
+  .proj-card .proj-arrow{ margin-top:14px; font-size:13px; color:var(--gold); font-family:'JetBrains Mono', monospace; }
+
+  #github-loading{ color:var(--ink-dim); font-family:'JetBrains Mono', monospace; font-size:14px; }
+
+  /* ---- Photography ---- */
+  .gallery-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:12px;
+  }
+  @media (max-width:640px){ .gallery-grid{ grid-template-columns:repeat(2, 1fr); } }
+  .gallery-item{
+    position:relative;
+    aspect-ratio:1/1;
+    border-radius:10px;
+    overflow:hidden;
+    border:1px solid var(--line);
+    background:var(--bg-raised);
+    cursor:pointer;
+  }
+  .gallery-item img{
+    width:100%; height:100%; object-fit:cover;
+    display:block;
+    transition:transform .3s ease;
+  }
+  .gallery-item:hover img{ transform:scale(1.06); }
+  .gallery-item .cap{
+    position:absolute; left:0; right:0; bottom:0;
+    padding:8px 10px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    color:var(--ink);
+    background:linear-gradient(to top, rgba(0,0,0,0.75), transparent);
+    opacity:0;
+    transition:opacity .2s;
+  }
+  .gallery-item:hover .cap{ opacity:1; }
+  .gallery-empty{
+    grid-column:1/-1;
+    color:var(--ink-dim);
+    font-family:'JetBrains Mono', monospace;
+    font-size:14px;
+    border:1px dashed var(--line);
+    border-radius:12px;
+    padding:32px;
+    text-align:center;
+  }
+  .gallery-empty code{ color:var(--gold); }
+
+  .lightbox{
+    position:fixed; inset:0; background:rgba(6,10,20,0.92);
+    display:none; align-items:center; justify-content:center;
+    z-index:100; padding:24px;
+  }
+  .lightbox.open{ display:flex; }
+  .lightbox img{ max-width:90vw; max-height:85vh; border-radius:8px; box-shadow:0 20px 60px rgba(0,0,0,0.5); }
+  .lightbox-close{
+    position:absolute; top:24px; right:28px;
+    color:var(--ink); font-family:'JetBrains Mono', monospace;
+    font-size:14px; cursor:pointer; border:1px solid var(--line);
+    padding:8px 14px; border-radius:8px; background:var(--bg-raised);
+  }
+
+  /* ---- Contact ---- */
+  .contact-grid{ display:flex; flex-wrap:wrap; gap:12px; }
+  .social-link{
+    display:flex; align-items:center; gap:10px;
+    background:var(--bg-raised);
+    border:1px solid var(--line);
+    padding:14px 18px;
+    border-radius:10px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:14px;
+    flex:1 1 200px;
+    transition:border-color .15s, background .15s;
+  }
+  .social-link:hover{ border-color:var(--gold); background:rgba(212,162,76,0.05); }
+  .social-link svg{ width:18px; height:18px; flex-shrink:0; color:var(--gold); }
+
+  footer{
+    text-align:center;
+    padding:40px 24px 60px;
+    color:var(--ink-dim);
+    font-family:'JetBrains Mono', monospace;
+    font-size:12.5px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .caret, .status-dot{ animation:none; }
+    .proj-card{ transition:none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="tabbar">
+  <div class="dots"><span></span><span></span><span></span></div>
+  <a class="tab active" href="#about">about.md</a>
+  <a class="tab" href="#now">now.log</a>
+  <a class="tab" href="#work">projects.js</a>
+  <a class="tab" href="#photos">photos.jpg</a>
+  <a class="tab" href="#contact">contact.sh</a>
+</div>
+
+<section class="hero" id="about">
+  <div class="status-line"><span class="status-dot"></span><span id="status-text">4th year @ BRAC University</span></div>
+  <h1>Tapoborota Datta <span class="accent">Ritom</span></h1>
+  <div class="role-line">CS student <span id="typed-role"></span><span class="caret"></span></div>
+  <p class="bio">I build things with Python, SQL, and C — currently in my final year at BRAC University. This site is my own corner of the internet: not a resume, not a LinkedIn profile, just a straight line to who I am and what I'm making.</p>
+</section>
+
+<section id="now">
+  <div class="sec-label">CURRENTLY</div>
+  <h2>What I'm doing now</h2>
+  <div class="now-card">
+    <div class="now-title">Finishing my degree, building in the open</div>
+    <p>Final year of my CS degree at BRAC University, spending spare time writing code and pushing it to GitHub. This section is easy for me to update — check back for what's next.</p>
+  </div>
+
+  <div style="height:36px"></div>
+
+  <div class="chip-group">
+    <div class="glabel">Languages I speak</div>
+    <div class="chips">
+      <span class="chip alt">English</span>
+      <span class="chip alt">Bengali</span>
+      <span class="chip alt">Hindi</span>
+    </div>
+  </div>
+
+  <div class="chip-group">
+    <div class="glabel">Languages I code in</div>
+    <div class="chips">
+      <span class="chip">Python</span>
+      <span class="chip">SQL</span>
+      <span class="chip">C</span>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="sec-label">BUILD LOG</div>
+  <h2>GitHub projects</h2>
+  <div id="github-loading">fetching repositories from github.com/tpbrdatta ...</div>
+  <div class="proj-grid" id="proj-grid" style="display:none;"></div>
+</section>
+
+<section id="photos">
+  <div class="sec-label">BEHIND THE LENS</div>
+  <h2>Photography</h2>
+  <div class="gallery-grid" id="gallery-grid">
+    <!--
+      HOW TO ADD YOUR PHOTOS:
+      1. Put your image files in a folder next to this HTML file, e.g. /photos/img1.jpg
+      2. Copy a block below for each photo and update the src + caption.
+      3. Delete the "gallery-empty" placeholder div once you've added at least one photo.
+
+      <div class="gallery-item" onclick="openLightbox('photos/img1.jpg')">
+        <img src="photos/img1.jpg" alt="Photo caption">
+        <div class="cap">Caption or location</div>
+      </div>
+    -->
+    <div class="gallery-empty">
+      No photos added yet. Drop image files into a <code>/photos</code> folder next to this page and add a <code>.gallery-item</code> block for each — see the comment in the HTML source for the exact snippet to copy.
+    </div>
+  </div>
+</section>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <div class="lightbox-close" onclick="closeLightbox()">close ✕</div>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<section id="contact">
+  <div class="sec-label">REACH ME</div>
+  <h2>Let's connect</h2>
+  <div class="contact-grid">
+    <a class="social-link" href="mailto:tpbrdatta@gmail.com">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 5.5A2.5 2.5 0 0 1 4.5 3h15A2.5 2.5 0 0 1 22 5.5v13a2.5 2.5 0 0 1-2.5 2.5h-15A2.5 2.5 0 0 1 2 18.5v-13Zm2.2.3 7.8 6.1 7.8-6.1H4.2ZM20 7.4l-7.4 5.8a1 1 0 0 1-1.2 0L4 7.4v11.1c0 .28.22.5.5.5h15c.28 0 .5-.22.5-.5V7.4Z"/></svg>
+      tpbrdatta@gmail.com
+    </a>
+    <a class="social-link" href="mailto:tapoborota.datta@g.bracu.ac.bd">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 5.5A2.5 2.5 0 0 1 4.5 3h15A2.5 2.5 0 0 1 22 5.5v13a2.5 2.5 0 0 1-2.5 2.5h-15A2.5 2.5 0 0 1 2 18.5v-13Zm2.2.3 7.8 6.1 7.8-6.1H4.2ZM20 7.4l-7.4 5.8a1 1 0 0 1-1.2 0L4 7.4v11.1c0 .28.22.5.5.5h15c.28 0 .5-.22.5-.5V7.4Z"/></svg>
+      tapoborota.datta@g.bracu.ac.bd
+    </a>
+    <a class="social-link" href="https://github.com/tpbrdatta" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55v-2.14c-3.2.7-3.87-1.36-3.87-1.36-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.04 1.77 2.72 1.26 3.38.96.1-.75.4-1.26.73-1.55-2.55-.29-5.23-1.27-5.23-5.66 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.17a10.9 10.9 0 0 1 5.74 0c2.19-1.48 3.15-1.17 3.15-1.17.62 1.58.23 2.75.11 3.04.74.8 1.18 1.82 1.18 3.07 0 4.4-2.69 5.37-5.25 5.65.41.36.78 1.06.78 2.15v3.19c0 .3.21.66.79.55A10.52 10.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>
+      github.com/tpbrdatta
+    </a>
+    <a class="social-link" href="https://facebook.com/tpbrdatta" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12Z"/></svg>
+      facebook.com/tpbrdatta
+    </a>
+    <a class="social-link" href="https://instagram.com/tpbrdatta" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.72 3.72 0 0 1-1.38-.9 3.72 3.72 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41 1.27-.06 1.65-.07 4.85-.07M12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63c-.8.31-1.48.72-2.15 1.4a5.9 5.9 0 0 0-1.4 2.15C.3 4.9.1 5.78.04 7.05-.02 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.31.8.72 1.48 1.4 2.15.67.68 1.35 1.09 2.15 1.4.76.3 1.64.5 2.91.56 1.28.06 1.69.07 4.95.07s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56.8-.31 1.48-.72 2.15-1.4.68-.67 1.09-1.35 1.4-2.15.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91a5.9 5.9 0 0 0-1.4-2.15A5.9 5.9 0 0 0 19.86.63c-.76-.3-1.64-.5-2.91-.56C15.67.01 15.26 0 12 0Zm0 5.84A6.16 6.16 0 1 0 12 18.16 6.16 6.16 0 0 0 12 5.84Zm0 10.16a4 4 0 1 1 0-8 4 4 0 0 1 0 8Zm6.41-10.4a1.44 1.44 0 1 1-2.88 0 1.44 1.44 0 0 1 2.88 0Z"/></svg>
+      instagram.com/tpbrdatta
+    </a>
+  </div>
+</section>
+
+<footer>
+  built by me, for me — last edited 2026
+</footer>
+
+<script>
+  // Typing effect for role line
+  const roles = ["→ final year", "→ Python / SQL / C", "→ open to opportunities"];
+  const el = document.getElementById('typed-role');
+  let ri = 0, ci = 0, deleting = false;
+
+  function typeLoop(){
+    const current = roles[ri];
+    if(!deleting){
+      ci++;
+      el.textContent = current.slice(0, ci);
+      if(ci === current.length){ deleting = true; setTimeout(typeLoop, 1400); return; }
+    } else {
+      ci--;
+      el.textContent = current.slice(0, ci);
+      if(ci === 0){ deleting = false; ri = (ri+1) % roles.length; }
+    }
+    setTimeout(typeLoop, deleting ? 35 : 55);
+  }
+  typeLoop();
+
+  // Tab active state on scroll
+  const tabs = document.querySelectorAll('.tab');
+  const sections = ['about','now','work','photos','contact'].map(id => document.getElementById(id));
+  window.addEventListener('scroll', () => {
+    let idx = 0;
+    sections.forEach((s,i) => { if(window.scrollY >= s.offsetTop - 80) idx = i; });
+    tabs.forEach(t => t.classList.remove('active'));
+    tabs[idx].classList.add('active');
+  });
+
+  // Lightbox for photography section
+  function openLightbox(src){
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox').classList.add('open');
+  }
+  function closeLightbox(){
+    document.getElementById('lightbox').classList.remove('open');
+  }
+
+  // Fetch GitHub repos
+  fetch('https://api.github.com/users/tpbrdatta/repos?sort=updated&per_page=6')
+    .then(r => r.ok ? r.json() : Promise.reject())
+    .then(repos => {
+      const grid = document.getElementById('proj-grid');
+      const loading = document.getElementById('github-loading');
+      if(!Array.isArray(repos) || repos.length === 0){
+        loading.textContent = 'no public repositories found yet — check back soon.';
+        return;
+      }
+      loading.style.display = 'none';
+      grid.style.display = 'grid';
+      repos.filter(r => !r.fork).slice(0,6).forEach(repo => {
+        const a = document.createElement('a');
+        a.className = 'proj-card';
+        a.href = repo.html_url;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.innerHTML = `
+          <div class="proj-name">${repo.name}</div>
+          <div class="proj-desc">${repo.description ? repo.description : 'No description provided.'}</div>
+          <div class="proj-arrow">${repo.language ? repo.language + ' · ' : ''}view repo →</div>
+        `;
+        grid.appendChild(a);
+      });
+      if(grid.children.length === 0){
+        loading.style.display = 'block';
+        loading.textContent = 'no public repositories found yet — check back soon.';
+      }
+    })
+    .catch(() => {
+      document.getElementById('github-loading').textContent = 'could not load repositories — view them directly on github.com/tpbrdatta';
+    });
+</script>
+
+</body>
+</html>
