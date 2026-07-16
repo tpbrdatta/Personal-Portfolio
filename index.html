@@ -7,18 +7,28 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+
+  /* ============================================================
+     1. DESIGN TOKENS
+     Central color palette + spacing values used across the site.
+     Change a value here and it updates everywhere it's used.
+     ============================================================ */
   :root{
-    --bg: #0B1220;
-    --bg-raised: #101A2E;
-    --ink: #E9EDF5;
-    --ink-dim: #8B96AC;
-    --line: #223051;
-    --gold: #D4A24C;
-    --gold-soft: rgba(212,162,76,0.12);
-    --green: #4CAE7F;
+    --bg: #0B1220;              /* main page background */
+    --bg-raised: #101A2E;       /* cards, tab bar (slightly lighter than bg) */
+    --ink: #E9EDF5;             /* primary text color */
+    --ink-dim: #8B96AC;         /* secondary / muted text */
+    --line: #223051;            /* borders and dividers */
+    --gold: #D4A24C;            /* accent color #1 (name highlight, active tab) */
+    --gold-soft: rgba(212,162,76,0.12); /* subtle gold background tint */
+    --green: #4CAE7F;           /* accent color #2 (status dot, education card) */
   }
+
+  /* ============================================================
+     2. GLOBAL RESET & BASE STYLES
+     ============================================================ */
   *{box-sizing:border-box; margin:0; padding:0;}
-  html{scroll-behavior:smooth;}
+  html{scroll-behavior:smooth;} /* smooth-scrolls to sections when a tab is clicked */
   body{
     background:var(--bg);
     color:var(--ink);
@@ -26,24 +36,28 @@
     line-height:1.5;
     -webkit-font-smoothing:antialiased;
   }
-  ::selection{ background:var(--gold-soft); color:var(--gold); }
-  .mono{ font-family:'JetBrains Mono', monospace; }
+  ::selection{ background:var(--gold-soft); color:var(--gold); } /* styled text-highlight color */
+  .mono{ font-family:'JetBrains Mono', monospace; } /* utility class for monospace text */
 
   a{ color:inherit; text-decoration:none; }
 
-  /* ---- Top tab bar (signature element) ---- */
+  /* ============================================================
+     3. TOP TAB BAR
+     The sticky "code editor" style nav at the top of the page.
+     Active tab is toggled by the scroll listener in the <script>.
+     ============================================================ */
   .tabbar{
     position:sticky; top:0; z-index:50;
     display:flex; align-items:center;
     background:var(--bg-raised);
     border-bottom:1px solid var(--line);
-    overflow-x:auto;
+    overflow-x:auto; /* lets tabs scroll horizontally on narrow screens */
   }
-  .tabbar .dots{ display:flex; gap:6px; padding:0 16px; }
+  .tabbar .dots{ display:flex; gap:6px; padding:0 16px; } /* fake mac-style window dots */
   .tabbar .dots span{ width:10px; height:10px; border-radius:50%; }
-  .dots span:nth-child(1){ background:#E5645C; }
-  .dots span:nth-child(2){ background:#E5B45C; }
-  .dots span:nth-child(3){ background:#4CAE7F; }
+  .dots span:nth-child(1){ background:#E5645C; } /* red */
+  .dots span:nth-child(2){ background:#E5B45C; } /* yellow */
+  .dots span:nth-child(3){ background:#4CAE7F; } /* green */
   .tab{
     font-family:'JetBrains Mono', monospace;
     font-size:13px;
@@ -57,9 +71,13 @@
   .tab:hover{ color:var(--ink); background:rgba(255,255,255,0.02); }
   .tab.active{ color:var(--gold); background:var(--bg); border-bottom:2px solid var(--gold); margin-bottom:-1px; }
 
+  /* Shared section spacing so every section aligns consistently below the sticky tab bar */
   section{ padding:100px 24px 40px; max-width:880px; margin:0 auto; scroll-margin-top:52px; }
 
-  /* ---- Hero ---- */
+  /* ============================================================
+     4. HERO SECTION (about.md)
+     Name, status pill, typing effect line, bio paragraph.
+     ============================================================ */
   .hero{ padding-top:140px; }
   .status-line{
     font-family:'JetBrains Mono', monospace;
@@ -77,7 +95,7 @@
   .status-dot{
     width:7px; height:7px; border-radius:50%; background:var(--green);
     box-shadow:0 0 0 0 rgba(76,174,127,0.6);
-    animation:pulse 2s infinite;
+    animation:pulse 2s infinite; /* "online" pulsing dot */
   }
   @keyframes pulse{
     0%{ box-shadow:0 0 0 0 rgba(76,174,127,0.5); }
@@ -90,7 +108,7 @@
     letter-spacing:-0.02em;
     line-height:1.08;
   }
-  h1 .accent{ color:var(--gold); }
+  h1 .accent{ color:var(--gold); } /* highlights the last name in gold */
   .role-line{
     margin-top:18px;
     font-size:clamp(16px, 2.4vw, 20px);
@@ -98,6 +116,7 @@
     font-family:'JetBrains Mono', monospace;
   }
   .caret{
+    /* blinking cursor block next to the typed-role text */
     display:inline-block; width:9px; height:1.1em; background:var(--gold);
     margin-left:2px; vertical-align:text-bottom;
     animation:blink 1s steps(1) infinite;
@@ -106,7 +125,10 @@
 
   .bio{ margin-top:28px; max-width:620px; color:var(--ink-dim); font-size:16px; }
 
-  /* ---- Section headers ---- */
+  /* ============================================================
+     5. SHARED SECTION HEADER STYLE
+     The small gold "SEC LABEL" + underline used above each h2.
+     ============================================================ */
   .sec-label{
     font-family:'JetBrains Mono', monospace;
     font-size:13px;
@@ -117,7 +139,10 @@
   .sec-label::before{ content:''; width:18px; height:1px; background:var(--gold); display:inline-block; }
   h2{ font-size:clamp(24px,3.4vw,32px); font-weight:600; margin-bottom:28px; letter-spacing:-0.01em; }
 
-  /* ---- Now card ---- */
+  /* ============================================================
+     6. "NOW" CARD (now.log)
+     Single highlighted card describing current status.
+     ============================================================ */
   .now-card{
     background:var(--bg-raised);
     border:1px solid var(--line);
@@ -127,6 +152,7 @@
     overflow:hidden;
   }
   .now-card::before{
+    /* colored accent bar down the left edge of the card */
     content:'';
     position:absolute; left:0; top:0; bottom:0; width:3px;
     background:var(--gold);
@@ -134,7 +160,9 @@
   .now-card p{ color:var(--ink-dim); font-size:15px; }
   .now-card .now-title{ font-size:17px; font-weight:600; margin-bottom:8px; }
 
-  /* ---- Education card ---- */
+  /* ============================================================
+     7. EDUCATION CARD
+     ============================================================ */
   .edu-card{
     background:var(--bg-raised);
     border:1px solid var(--line);
@@ -144,7 +172,7 @@
     justify-content:space-between;
     align-items:flex-start;
     gap:16px;
-    flex-wrap:wrap;
+    flex-wrap:wrap; /* wraps year pill under text on narrow screens */
     position:relative;
     overflow:hidden;
   }
@@ -166,7 +194,11 @@
     white-space:nowrap;
   }
 
-  /* ---- Language / skill chips ---- */
+  /* ============================================================
+     8. SKILL / LANGUAGE CHIPS
+     Used for "Languages I speak", "Languages I code in", "Tools & tech".
+     .chip = gold style, .chip.alt = green style.
+     ============================================================ */
   .chip-group{ margin-bottom:26px; }
   .chip-group .glabel{ font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--ink-dim); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px; }
   .chips{ display:flex; flex-wrap:wrap; gap:10px; }
@@ -185,9 +217,13 @@
     color:var(--green);
   }
 
-  /* ---- Projects ---- */
+  /* ============================================================
+     9. GITHUB PROJECTS GRID (projects.js)
+     Cards are generated dynamically by JS after the GitHub API
+     fetch resolves — see the <script> section at the bottom.
+     ============================================================ */
   .proj-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-  @media (max-width:640px){ .proj-grid{ grid-template-columns:1fr; } }
+  @media (max-width:640px){ .proj-grid{ grid-template-columns:1fr; } } /* stack to 1 column on mobile */
   .proj-card{
     background:var(--bg-raised);
     border:1px solid var(--line);
@@ -201,9 +237,13 @@
   .proj-card .proj-desc{ color:var(--ink-dim); font-size:13.5px; }
   .proj-card .proj-arrow{ margin-top:14px; font-size:13px; color:var(--gold); font-family:'JetBrains Mono', monospace; }
 
-  #github-loading{ color:var(--ink-dim); font-family:'JetBrains Mono', monospace; font-size:14px; }
+  #github-loading{ color:var(--ink-dim); font-family:'JetBrains Mono', monospace; font-size:14px; } /* "fetching..." placeholder text */
 
-  /* ---- Photography ---- */
+  /* ============================================================
+     10. PHOTOGRAPHY GALLERY (photos.jpg)
+     Responsive grid: 4 cols desktop -> 1 col mobile.
+     Clicking a photo opens the lightbox (see section 11 + JS).
+     ============================================================ */
   .gallery-grid{
     display:grid;
     grid-template-columns:repeat(4, minmax(0, 1fr));
@@ -229,8 +269,9 @@
     display:block;
     transition:transform .3s ease;
   }
-  .gallery-item:hover img{ transform:scale(1.06); }
+  .gallery-item:hover img{ transform:scale(1.06); } /* subtle zoom on hover */
   .gallery-item .cap{
+    /* caption overlay, hidden until hover */
     position:absolute; left:0; right:0; bottom:0;
     padding:8px 10px;
     font-family:'JetBrains Mono', monospace;
@@ -242,6 +283,7 @@
   }
   .gallery-item:hover .cap{ opacity:1; }
   .gallery-empty{
+    /* fallback message if no photos are present (not currently used, but available) */
     grid-column:1/-1;
     color:var(--ink-dim);
     font-family:'JetBrains Mono', monospace;
@@ -253,6 +295,10 @@
   }
   .gallery-empty code{ color:var(--gold); }
 
+  /* ============================================================
+     11. LIGHTBOX (full-screen photo viewer)
+     Toggled via .open class by openLightbox() / closeLightbox().
+     ============================================================ */
   .lightbox{
     position:fixed; inset:0; background:rgba(6,10,20,0.92);
     display:none; align-items:center; justify-content:center;
@@ -267,7 +313,10 @@
     padding:8px 14px; border-radius:8px; background:var(--bg-raised);
   }
 
-  /* ---- Contact ---- */
+  /* ============================================================
+     12. CONTACT SECTION (contact.sh)
+     Row of pill-style links: email, GitHub, Facebook, Instagram.
+     ============================================================ */
   .contact-grid{ display:flex; flex-wrap:wrap; gap:12px; }
   .social-link{
     display:flex; align-items:center; gap:10px;
@@ -277,12 +326,15 @@
     border-radius:10px;
     font-family:'JetBrains Mono', monospace;
     font-size:14px;
-    flex:1 1 200px;
+    flex:1 1 200px; /* lets links wrap into a responsive row/grid */
     transition:border-color .15s, background .15s;
   }
   .social-link:hover{ border-color:var(--gold); background:rgba(212,162,76,0.05); }
   .social-link svg{ width:18px; height:18px; flex-shrink:0; color:var(--gold); }
 
+  /* ============================================================
+     13. FOOTER
+     ============================================================ */
   footer{
     text-align:center;
     padding:40px 24px 60px;
@@ -291,6 +343,11 @@
     font-size:12.5px;
   }
 
+  /* ============================================================
+     14. ACCESSIBILITY
+     Disables decorative animation/transition for users who have
+     "reduce motion" turned on at the OS level.
+     ============================================================ */
   @media (prefers-reduced-motion: reduce){
     .caret, .status-dot{ animation:none; }
     .proj-card{ transition:none; }
@@ -299,6 +356,9 @@
 </head>
 <body>
 
+<!-- ============================================================
+     TAB BAR (sticky nav) — one <a> per section, anchors to #ids below
+     ============================================================ -->
 <div class="tabbar">
   <div class="dots"><span></span><span></span><span></span></div>
   <a class="tab active" href="#about">about.md</a>
@@ -308,6 +368,10 @@
   <a class="tab" href="#contact">contact.sh</a>
 </div>
 
+<!-- ============================================================
+     SECTION: ABOUT / HERO
+     Name, animated role line, short bio.
+     ============================================================ -->
 <section class="hero" id="about">
   <div class="status-line"><span class="status-dot"></span><span id="status-text">4th year @ BRAC University</span></div>
   <h1>Tapoborota Datta <span class="accent">Ritom</span></h1>
@@ -315,7 +379,12 @@
   <p class="bio">I build things with Python, SQL, and C — currently in my final year at BRAC University. This site is my own corner of the internet: not a resume, not a LinkedIn profile, just a straight line to who I am and what I'm making.</p>
 </section>
 
+<!-- ============================================================
+     SECTION: NOW + EDUCATION + SKILLS
+     ============================================================ -->
 <section id="now">
+
+  <!-- "What I'm doing now" card -->
   <div class="sec-label">CURRENTLY</div>
   <h2>What I'm doing now</h2>
   <div class="now-card">
@@ -325,6 +394,7 @@
 
   <div style="height:36px"></div>
 
+  <!-- Education card -->
   <div class="sec-label">EDUCATION</div>
   <div class="edu-card">
     <div>
@@ -336,6 +406,7 @@
 
   <div style="height:36px"></div>
 
+  <!-- Chip groups: spoken languages, programming languages, tools -->
   <div class="chip-group">
     <div class="glabel">Languages I speak</div>
     <div class="chips">
@@ -366,6 +437,11 @@
   </div>
 </section>
 
+<!-- ============================================================
+     SECTION: GITHUB PROJECTS
+     #github-loading shows while the fetch is in flight;
+     #proj-grid is populated + revealed once repos arrive (see JS).
+     ============================================================ -->
 <section id="work">
   <div class="sec-label">BUILD LOG</div>
   <h2>GitHub projects</h2>
@@ -373,6 +449,12 @@
   <div class="proj-grid" id="proj-grid" style="display:none;"></div>
 </section>
 
+<!-- ============================================================
+     SECTION: PHOTOGRAPHY GALLERY
+     Each thumbnail calls openLightbox(src) on click.
+     NOTE: image paths are relative ("photos/photoN.jpg") — this
+     folder must exist alongside this HTML file when deployed.
+     ============================================================ -->
 <section id="photos">
   <div class="sec-label">BEHIND THE LENS</div>
   <h2>Photography</h2>
@@ -400,11 +482,15 @@
   </div>
 </section>
 
+<!-- Full-screen lightbox overlay, hidden by default, toggled via JS -->
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
   <div class="lightbox-close" onclick="closeLightbox()">close ✕</div>
   <img id="lightbox-img" src="" alt="">
 </div>
 
+<!-- ============================================================
+     SECTION: CONTACT
+     ============================================================ -->
 <section id="contact">
   <div class="sec-label">REACH ME</div>
   <h2>Let's connect</h2>
@@ -437,27 +523,37 @@
 </footer>
 
 <script>
-  // Typing effect for role line
+  /* ============================================================
+     1. HERO TYPING EFFECT
+     Cycles through the `roles` array, typing each string out
+     character by character, pausing, then deleting it before
+     moving to the next one. Runs forever (typeLoop calls itself).
+     ============================================================ */
   const roles = ["→ final year", "→ Python / SQL / C", "→ open to opportunities"];
   const el = document.getElementById('typed-role');
-  let ri = 0, ci = 0, deleting = false;
+  let ri = 0, ci = 0, deleting = false; // ri = role index, ci = character index
 
   function typeLoop(){
     const current = roles[ri];
     if(!deleting){
       ci++;
       el.textContent = current.slice(0, ci);
-      if(ci === current.length){ deleting = true; setTimeout(typeLoop, 1400); return; }
-    } else {
+      if(ci === current.length){ deleting = true; setTimeout(typeLoop, 1400); return; } // pause when fully typed
+      }
+    else {
       ci--;
       el.textContent = current.slice(0, ci);
-      if(ci === 0){ deleting = false; ri = (ri+1) % roles.length; }
+      if(ci === 0){ deleting = false; ri = (ri+1) % roles.length; } // move to next role once fully deleted
     }
-    setTimeout(typeLoop, deleting ? 35 : 55);
+    setTimeout(typeLoop, deleting ? 35 : 55); // deletes faster than it types
   }
   typeLoop();
 
-  // Tab active state on scroll
+  /* ============================================================
+     2. SCROLL-BASED ACTIVE TAB HIGHLIGHTING
+     On every scroll, checks which section is currently in view
+     and highlights the matching tab in the sticky tab bar.
+     ============================================================ */
   const tabs = document.querySelectorAll('.tab');
   const sections = ['about','now','work','photos','contact'].map(id => document.getElementById(id));
   window.addEventListener('scroll', () => {
@@ -467,7 +563,10 @@
     tabs[idx].classList.add('active');
   });
 
-  // Lightbox for photography section
+  /* ============================================================
+     3. LIGHTBOX CONTROLS
+     Called from the onclick attributes on each gallery thumbnail.
+     ============================================================ */
   function openLightbox(src){
     document.getElementById('lightbox-img').src = src;
     document.getElementById('lightbox').classList.add('open');
@@ -476,7 +575,13 @@
     document.getElementById('lightbox').classList.remove('open');
   }
 
-  // Fetch GitHub repos
+  /* ============================================================
+     4. GITHUB REPOS FETCH
+     Pulls the 6 most recently updated repos from the GitHub API,
+     filters out forks, and renders each as a .proj-card.
+     Falls back to a text message if the request fails or the
+     account has no public (non-fork) repos.
+     ============================================================ */
   fetch('https://api.github.com/users/tpbrdatta/repos?sort=updated&per_page=6')
     .then(r => r.ok ? r.json() : Promise.reject())
     .then(repos => {
@@ -502,6 +607,7 @@
         grid.appendChild(a);
       });
       if(grid.children.length === 0){
+        // all repos were forks and got filtered out — show the empty-state message instead
         loading.style.display = 'block';
         loading.textContent = 'no public repositories found yet — check back soon.';
       }
