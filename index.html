@@ -206,18 +206,23 @@
   /* ---- Photography ---- */
   .gallery-grid{
     display:grid;
-    grid-template-columns:repeat(3, 1fr);
+    grid-template-columns:repeat(4, minmax(0, 1fr));
     gap:12px;
+    max-width:900px;
+    margin-top:10px;
   }
-  @media (max-width:640px){ .gallery-grid{ grid-template-columns:repeat(2, 1fr); } }
+  @media (max-width:900px){ .gallery-grid{ grid-template-columns:repeat(3, minmax(0, 1fr)); } }
+  @media (max-width:680px){ .gallery-grid{ grid-template-columns:repeat(2, minmax(0, 1fr)); } }
+  @media (max-width:480px){ .gallery-grid{ grid-template-columns:1fr; } }
   .gallery-item{
     position:relative;
-    aspect-ratio:1/1;
+    aspect-ratio:4/3;
     border-radius:10px;
     overflow:hidden;
     border:1px solid var(--line);
     background:var(--bg-raised);
     cursor:pointer;
+    min-height:180px;
   }
   .gallery-item img{
     width:100%; height:100%; object-fit:cover;
@@ -306,7 +311,7 @@
 <section class="hero" id="about">
   <div class="status-line"><span class="status-dot"></span><span id="status-text">4th year @ BRAC University</span></div>
   <h1>Tapoborota Datta <span class="accent">Ritom</span></h1>
-  <div class="role-line">CS student <span id="typed-role"></span><span class="caret"></span></div>
+  <div class="role-line">CSE student <span id="typed-role"></span><span class="caret"></span></div>
   <p class="bio">I build things with Python, SQL, and C — currently in my final year at BRAC University. This site is my own corner of the internet: not a resume, not a LinkedIn profile, just a straight line to who I am and what I'm making.</p>
 </section>
 
@@ -372,23 +377,26 @@
   <div class="sec-label">BEHIND THE LENS</div>
   <h2>Photography</h2>
 
-  <div class="gallery-item" onclick="openLightbox('photos/photo1.jpg')">
-    <img src="photos/photo1.jpg" alt="Dragon Flower">
-    <div class="cap">Flower of the Dragon</div>
-  </div>
+  <div class="gallery-grid">
+    <div class="gallery-item" onclick="openLightbox('photos/photo1.jpg')">
+      <img src="photos/photo1.jpg" alt="Dragon Flower">
+      <div class="cap">Flower of the Dragon</div>
+    </div>
 
-  <div class="gallery-item" onclick="openLightbox('photos/photo2.jpg')">
-    <img src="photos/photo2.jpg" alt="Simple scenary">
-    <div class="cap">Simple scenary</div>
-  </div>
+    <div class="gallery-item" onclick="openLightbox('photos/photo2.jpg')">
+      <img src="photos/photo2.jpg" alt="Simple scenary">
+      <div class="cap">Simple scenary</div>
+    </div>
 
-  <div class="gallery-item" onclick="openLightbox('photos/photo3.jpg')">
-    <img src="photos/photo3.jpg" alt="Staircase">
-    <div class="cap">Staircase</div>
-  </div>
-  <div class="gallery-item" onclick="openLightbox('photos/photo4.jpg')">
-    <img src="photos/photo4.jpg" alt="Loop">
-    <div class="cap">StairLoop</div>
+    <div class="gallery-item" onclick="openLightbox('photos/photo3.jpg')">
+      <img src="photos/photo3.jpg" alt="Staircase">
+      <div class="cap">Staircase</div>
+    </div>
+
+    <div class="gallery-item" onclick="openLightbox('photos/photo4.jpg')">
+      <img src="photos/photo4.jpg" alt="Loop">
+      <div class="cap">StairLoop</div>
+    </div>
   </div>
 </section>
 
